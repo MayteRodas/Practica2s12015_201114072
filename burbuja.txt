@@ -1,0 +1,14 @@
+set grid 
+set title "Ordenamiento burbuja"
+set ylabel "DATOS INGRESADOS"
+set xlabel "TIEMPO"
+plot [4:0.000000] x*exp(2)
+plot [5:0.000000] x*exp(2)
+plot [10:0.000000] x*exp(2)
+plot [14:0.000000] x*exp(2)
+plot [15:0.000000] x*exp(2)
+plot [21:0.000000] x*exp(2)
+plot [55:0.000000] x*exp(2)
+plot [78:0.000000] x*exp(2)
+plot [90:0.000000] x*exp(2)
+pause mouse
