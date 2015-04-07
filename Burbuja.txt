@@ -1,16 +1,14 @@
 set grid 
-set xrange [-100:100] 
-set yrange [0:50] 
 set title "Ordenamiento burbuja"
 set ylabel "DATOS INGRESADOS"
 set xlabel "TIEMPO"
-plot [0.000000:4] lw 3 lt 4 with boxes
-plot [0.000000:5] lw 3 lt 4 with boxes
-plot [0.000000:10] lw 3 lt 4 with boxes
-plot [0.000000:14] lw 3 lt 4 with boxes
-plot [0.000000:15] lw 3 lt 4 with boxes
-plot [0.000000:21] lw 3 lt 4 with boxes
-plot [0.000000:55] lw 3 lt 4 with boxes
-plot [0.000000:78] lw 3 lt 4 with boxes
-plot [0.000000:90] lw 3 lt 4 with boxes
+plot [0.000000:4] exp(x) lw 3 lt 4 with boxes
+plot [0.000000:5] exp(x) lw 3 lt 4 with boxes
+plot [0.000000:10] exp(x) lw 3 lt 4 with boxes
+plot [0.000000:14] exp(x) lw 3 lt 4 with boxes
+plot [0.000000:15] exp(x) lw 3 lt 4 with boxes
+plot [0.000000:21] exp(x) lw 3 lt 4 with boxes
+plot [0.000000:55] exp(x) lw 3 lt 4 with boxes
+plot [0.000000:78] exp(x) lw 3 lt 4 with boxes
+plot [0.000000:90] exp(x) lw 3 lt 4 with boxes
 pause mouse

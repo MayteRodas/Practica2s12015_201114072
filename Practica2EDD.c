@@ -58,8 +58,8 @@ NodoLista *ultimo;
 float tim;
 clock_t inicio, fin; 
 
-int cont;
-int listaQ[100];
+int cont=0;
+int *listaQ;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////MAIN////////////////////////////////////////////////////////////////////
@@ -105,8 +105,8 @@ int main(int argc, char **argv)
 							    burbuja(head);
 							    
 							    fprintf(archivo,"set grid \n");
-							    fprintf(archivo,"set xrange [-100:100] \n");
-						        fprintf(archivo,"set yrange [0:50] \n");
+							    //fprintf(archivo,"set xrange [-100:100] \n");
+						        //fprintf(archivo,"set yrange [0:50] \n");
 							    fprintf(archivo,"set title \"Ordenamiento burbuja\"\n");
 							    fprintf(archivo,"set ylabel \"DATOS INGRESADOS\"\n");
 							    fprintf(archivo,"set xlabel \"TIEMPO\"\n");
@@ -145,21 +145,25 @@ int main(int argc, char **argv)
 							
 							 
 						    fprintf(archivo1,"set grid \n");
-						    fprintf(archivo1,"set xrange [-100:100] \n");
-						    fprintf(archivo1,"set yrange [0:50] \n");
+						    //fprintf(archivo1,"set xrange [-100:100] \n");
+						    //fprintf(archivo1,"set yrange [0:50] \n");
 							fprintf(archivo1,"set title \"Ordenamiento Quicksort\"\n");
 							fprintf(archivo1,"set ylabel \"DATOS INGRESADOS\"\n");
 							fprintf(archivo1,"set xlabel \"TIEMPO\"\n");
 							
 							quicksort(listaQ,size); 
-							printf("Lista Ordenada \n");
+							
 							int i;
+							
+							printf("Lista Ordenada \n");
 							for (i=0; i<size; i++) {
 								fprintf	(archivo1, "plot [%f:%d] log(x) lw 3 lt 4 with boxes\n", tim, listaQ);
+								
 								printf("%d",listaQ[i]);
 								if(i<size-1)
-								  printf(",");						
+									printf(",");
 							}
+							
 							fprintf(archivo1,"pause mouse");
 								
 							fin = clock();
@@ -242,19 +246,30 @@ void CargarDatos()
 	while((c=fgets(cad,100,fp)))
 	{
 		int num = atoi(cad);
-		cont = cont+1;
+		
 		raiz=InsertarAVL(num, raiz);
 		head=InsertarLL(head, num);
-		listaQ[cont]=num;
+		cont = cont+1;
 	}
 	fclose ( fp );
 	
+	listaQ=(int*)malloc(sizeof(int)*cont); 
+	FILE *fp2;
+	fp2=fopen("prueba2.txt", "r");
+	cont=0;
+	while((c=fgets(cad,100,fp2)))
+	{
+		int num = atoi(cad);
+		listaQ[cont]=num;
+		cont = cont+1;
+	}
+	fclose ( fp2 );
 	
 	FILE *fp1; 
  	fp1 = fopen ( "AVL.txt", "w" );
  	fprintf(fp1,"set grid \n");
- 	fprintf(fp1,"set xrange [-100:100] \n");
-    fprintf(fp1,"set yrange [0:50] \n");
+ 	//fprintf(fp1,"set xrange [-100:100] \n");
+    //fprintf(fp1,"set yrange [0:50] \n");
 	fprintf(fp1,"set title \"Ordenamiento Arbol AVL\"\n");
 	fprintf(fp1,"set ylabel \"DATOS INGRESADOS\"\n");
 	fprintf(fp1,"set xlabel \"TIEMPO\"\n"); 
@@ -488,7 +503,7 @@ void inorder(pnodo t, int profundidad)
         printf ("%d\n", t->clave);
         inorder(t->right, profundidad+1);
     }												
-	return 0;
+	//return 0;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -571,6 +586,6 @@ void qs(int listaQ[],int limite_izq,int limite_der)
 	 
 void quicksort(int listaQ[],int n)
 {
-	qs(listaQ,n,n-1);
+	qs(listaQ,0,n-1);
 }
 	 
