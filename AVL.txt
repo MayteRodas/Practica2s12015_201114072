@@ -1,0 +1,16 @@
+set grid 
+set xrange [-100:100] 
+set yrange [0:50] 
+set title "Ordenamiento Arbol AVL"
+set ylabel "DATOS INGRESADOS"
+set xlabel "TIEMPO"
+plot [0.000000:4] log(x) lw 3 lt 4 with boxes
+plot [0.000000:5] log(x) lw 3 lt 4 with boxes
+plot [0.000000:10] log(x) lw 3 lt 4 with boxes
+plot [0.000000:14] log(x) lw 3 lt 4 with boxes
+plot [0.000000:15] log(x) lw 3 lt 4 with boxes
+plot [0.000000:21] log(x) lw 3 lt 4 with boxes
+plot [0.000000:55] log(x) lw 3 lt 4 with boxes
+plot [0.000000:78] log(x) lw 3 lt 4 with boxes
+plot [0.000000:90] log(x) lw 3 lt 4 with boxes
+pause mouse

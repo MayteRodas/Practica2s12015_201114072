@@ -1,0 +1,16 @@
+set grid 
+set xrange [-100:100] 
+set yrange [0:50] 
+set title "Ordenamiento Quicksort"
+set ylabel "DATOS INGRESADOS"
+set xlabel "TIEMPO"
+plot [0.000000:6304032] lw 3 lt 4 with boxes
+plot [0.000000:6304032] lw 3 lt 4 with boxes
+plot [0.000000:6304032] lw 3 lt 4 with boxes
+plot [0.000000:6304032] lw 3 lt 4 with boxes
+plot [0.000000:6304032] lw 3 lt 4 with boxes
+plot [0.000000:6304032] lw 3 lt 4 with boxes
+plot [0.000000:6304032] lw 3 lt 4 with boxes
+plot [0.000000:6304032] lw 3 lt 4 with boxes
+plot [0.000000:6304032] lw 3 lt 4 with boxes
+pause mouse

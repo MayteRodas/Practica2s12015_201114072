@@ -1,14 +1,14 @@
 set grid 
-set title "Ordenamiento Arbol AVL"
+set title "Ordenamiento quicksort"
 set ylabel "DATOS INGRESADOS"
 set xlabel "TIEMPO"
-plot [4: 0.000000] log(x)
+plot [0: 0.000000] log(x)
 plot [5: 0.000000] log(x)
 plot [10: 0.000000] log(x)
-plot [14: 0.000000] log(x)
 plot [15: 0.000000] log(x)
+plot [4: 0.000000] log(x)
 plot [21: 0.000000] log(x)
 plot [55: 0.000000] log(x)
 plot [78: 0.000000] log(x)
-plot [90: 0.000000] log(x)
+plot [14: 0.000000] log(x)
 pause mouse

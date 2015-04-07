@@ -38,6 +38,10 @@ void ImprimeInorder(pnodo t);
 
 NodoLista *InsertarLL(NodoLista *head, int val);
 NodoLista *burbuja(NodoLista *head);
+
+
+void qs(int listaQ[],int limite_izq,int limite_der);
+void quicksort(int listaQ[],int n);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -52,8 +56,10 @@ NodoLista *head;
 NodoLista *ultimo;
 
 float tim;
-clock_t inicio, fin;  
+clock_t inicio, fin; 
 
+int cont;
+int listaQ[100];
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////MAIN////////////////////////////////////////////////////////////////////
@@ -91,20 +97,22 @@ int main(int argc, char **argv)
 							printf("Ordenar Burbuja y su tiempo:");
 							
 							FILE *archivo;/*El manejador de archivo*/
-							archivo=fopen("burbuja.txt", "w");
+							archivo=fopen("Burbuja.txt", "w");
 							if(archivo==NULL)/*So no lo logramos abrir, salimos*/
 								
-								printf("\nError no se abrio burbuja\n");
+								printf("\nError no se abrio Burbuja\n");
 								inicio = clock();	
 							    burbuja(head);
 							    
 							    fprintf(archivo,"set grid \n");
+							    fprintf(archivo,"set xrange [-100:100] \n");
+						        fprintf(archivo,"set yrange [0:50] \n");
 							    fprintf(archivo,"set title \"Ordenamiento burbuja\"\n");
 							    fprintf(archivo,"set ylabel \"DATOS INGRESADOS\"\n");
 							    fprintf(archivo,"set xlabel \"TIEMPO\"\n");
 							    								
 								while(head!=NULL){
-									fprintf(archivo, "plot [%d:%f] x*exp(2)\n", head->val,tim);
+									fprintf(archivo, "plot [%f:%d] exp(x) lw 3 lt 4 with boxes\n", tim, head->val);
 									printf("%d\n ", head->val);
 									head=head->sig;
 								}
@@ -123,6 +131,42 @@ int main(int argc, char **argv)
 			   case 4: {
 							//Ordenado quicksort y tiempo
 							
+							int size = cont;
+							
+							
+							printf("Ordenado Quicksort y tiempo:");
+							
+							FILE *archivo1;/*El manejador de archivo*/
+							archivo1=fopen("Quicksort.txt", "w");
+							if(archivo1==NULL)/*So no lo logramos abrir, salimos*/
+								
+							printf("\nError no se abrio Quicksort\n");
+							inicio = clock();	
+							
+							 
+						    fprintf(archivo1,"set grid \n");
+						    fprintf(archivo1,"set xrange [-100:100] \n");
+						    fprintf(archivo1,"set yrange [0:50] \n");
+							fprintf(archivo1,"set title \"Ordenamiento Quicksort\"\n");
+							fprintf(archivo1,"set ylabel \"DATOS INGRESADOS\"\n");
+							fprintf(archivo1,"set xlabel \"TIEMPO\"\n");
+							
+							quicksort(listaQ,size); 
+							printf("Lista Ordenada \n");
+							int i;
+							for (i=0; i<size; i++) {
+								fprintf	(archivo1, "plot [%f:%d] log(x) lw 3 lt 4 with boxes\n", tim, listaQ);
+								printf("%d",listaQ[i]);
+								if(i<size-1)
+								  printf(",");						
+							}
+							fprintf(archivo1,"pause mouse");
+								
+							fin = clock();
+							tim=(double)(fin-inicio)/(double)CLOCKS_PER_SEC;
+							printf("\n Tiempo consumido: %f segundos\n", (double)(fin-inicio)/(double)CLOCKS_PER_SEC);
+						    fclose(archivo1);/*Cerramos el archivo*/	
+							
 							break;
 						}
 						
@@ -130,17 +174,17 @@ int main(int argc, char **argv)
 							//Grafica AVL
 							printf("Grafica Metodo Ordenamiento Arbol AVL:\n");
 							FILE *fp1; 
-							fp1 = fopen ( "avl.txt", "a" ); 
+							fp1 = fopen ( "AVL.txt", "a" ); 
 							fprintf(fp1,"pause mouse");
 							fclose ( fp1 );	
-							system("gnuplot avl.txt");
+							system("gnuplot AVL.txt");
 							break;
 						}
 					
 				case 6: {
 							//Grafica burbuja
 							printf("Grafica Metodo Ordenamiento Burbuja:\n");
-							system("gnuplot burbuja.txt");
+							system("gnuplot Burbuja.txt");
 							break;
 						}
 						
@@ -148,6 +192,9 @@ int main(int argc, char **argv)
 						
 				case 7: {
 							//Grafica quicksort
+							printf("Grafica Metodo Ordenamiento Quicksort:\n");
+							system("gnuplot Quicksort.txt");
+							
 							break;
 						}
 		}
@@ -195,14 +242,19 @@ void CargarDatos()
 	while((c=fgets(cad,100,fp)))
 	{
 		int num = atoi(cad);
+		cont = cont+1;
 		raiz=InsertarAVL(num, raiz);
 		head=InsertarLL(head, num);
+		listaQ[cont]=num;
 	}
 	fclose ( fp );
 	
+	
 	FILE *fp1; 
- 	fp1 = fopen ( "avl.txt", "w" );
+ 	fp1 = fopen ( "AVL.txt", "w" );
  	fprintf(fp1,"set grid \n");
+ 	fprintf(fp1,"set xrange [-100:100] \n");
+    fprintf(fp1,"set yrange [0:50] \n");
 	fprintf(fp1,"set title \"Ordenamiento Arbol AVL\"\n");
 	fprintf(fp1,"set ylabel \"DATOS INGRESADOS\"\n");
 	fprintf(fp1,"set xlabel \"TIEMPO\"\n"); 
@@ -216,8 +268,8 @@ if (t != NULL)
     {
         ImprimeInorder(t->left);
         FILE *fp1; 
-		fp1 = fopen ( "avl.txt", "a" ); 
-		fprintf(fp1, "plot [%d: %f] log(x)\n", t-> clave, tim);
+		fp1 = fopen ( "AVL.txt", "a" ); 
+		fprintf(fp1, "plot [%f:%d] log(x) lw 3 lt 4 with boxes\n", tim, t-> clave);
 		fclose ( fp1 );		
         ImprimeInorder(t->right);
     }	
@@ -490,41 +542,35 @@ NodoLista *burbuja(NodoLista *head){
 
 
 //////////////////////////////////////////////////////////Ordenamiento quicksort/////////////////////////////////////////////////////////
-/*
-NodoLista *quicksort(NodoLista *primero, NodoLista *ultimo)
+void qs(int listaQ[],int limite_izq,int limite_der)
 {
-	
-	 printf("SI IMPRIMIO QICKKKKKKK \n"); 
-
-NodoLista *q, *r, *p, *s, *t, *w, *u;
-s = u = NULL;
-q = primero;
-r = ultimo->sig;
-p = primero->sig;
-if (primero == ultimo)
-return primero;
-while (p != r){
-if(p->valor < q->valor)
-if(s == NULL)
-t = s = p;
-else {
-s->sig = p;
-s = s->sig;
+	    int izq,der,temporal,pivote;
+	 
+	    izq=limite_izq;
+	    der = limite_der;
+	    pivote = listaQ[(izq+der)/2];
+	 
+	    do{
+	        while(listaQ[izq]<pivote && izq<limite_der)izq++;
+	        while(pivote<listaQ[der] && der > limite_izq)der--;
+	        if(izq <=der)
+	        {
+	            temporal= listaQ[izq];
+	            listaQ[izq]=listaQ[der];
+	            listaQ[der]=temporal;
+	            izq++;
+	            der--;
+	 
+	        }
+	 
+	    }while(izq<=der);
+	    if(limite_izq<der){qs(listaQ,limite_izq,der);}
+	    if(limite_der>izq){qs(listaQ,izq,limite_der);}
+	 
 }
-else
-if(u == NULL)
-w = u = p;
-else {
-u->sig = p;
-u = u->sig;
+	 
+void quicksort(int listaQ[],int n)
+{
+	qs(listaQ,n,n-1);
 }
-p = p->sig;
-}
-s->sig = q;
-q->sig = w;
-u->sig = r;
-quicksort(w,u);
-return quicksort(t,s);
-
- }
-*/
+	 
